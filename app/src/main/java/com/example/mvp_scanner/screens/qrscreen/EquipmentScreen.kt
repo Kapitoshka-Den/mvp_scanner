@@ -1,42 +1,15 @@
 package com.example.mvp_scanner.screens
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import com.example.mvp_scanner.NavControl
 import com.example.mvp_scanner.screens.qrscreen.viewmodel.EquipmentViewModel
 
 @Composable
-fun EquipmentScreen (viewModel:EquipmentViewModel = hiltViewModel()){
- val state = viewModel.state.collectAsState()
+fun EquipmentScreen (navControl: NavController, equipId: String, viewModel:EquipmentViewModel = hiltViewModel()){
 
- Column(
-  modifier = Modifier
-   .fillMaxSize()
-   .padding(vertical = 10.dp),
-  horizontalAlignment = Alignment.CenterHorizontally,
-  verticalArrangement = Arrangement.Center
- ) {
-  Box(modifier = Modifier
-   .fillMaxSize()
-   .weight(0.5f), contentAlignment = Alignment.Center) {
-   Text(text =  state.value.details )
-  }
-
-  Box(modifier = Modifier
-   .fillMaxSize()
-   .weight(0.5f), contentAlignment = Alignment.BottomCenter) {
-   Button(onClick = { viewModel.startScanning() }) {
-    Text(text = "start scanning")
-   }
-  }
-
-
- }
-
+Text(text = equipId)
 }
