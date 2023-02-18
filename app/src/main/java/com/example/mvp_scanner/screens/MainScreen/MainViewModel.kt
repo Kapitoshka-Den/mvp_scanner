@@ -22,7 +22,7 @@ class MainViewModel @Inject constructor(
     private val _state = MutableStateFlow(MainState())
     public val state = _state.asStateFlow()
 
-    fun startScan(){
+    fun startScann(navHostController: NavHostController){
         viewModelScope.launch {
             repo.startScanning().collect{
                 if (!it.isNullOrEmpty()){
@@ -30,6 +30,7 @@ class MainViewModel @Inject constructor(
                         requestUrl = it
                     )
                 }
+                navHostController.navigate(NavControl.EquipmentScreen.route+state.value.requestUrl)
             }
         }
     }

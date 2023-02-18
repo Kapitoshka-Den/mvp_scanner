@@ -28,10 +28,7 @@ var scope = rememberCoroutineScope()
         Text(text = state.value.requestUrl)
         Button(
             onClick = {
-                    viewModel.startScan()
-                    navHostController.navigate(NavControl.EquipmentScreen.route+state.value.requestUrl)
-
-
+                    viewModel.startScann(navHostController)
             },
             content = { Text(text = "Проверка ифнормации по оборудованию") })
 

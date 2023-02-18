@@ -28,7 +28,7 @@ class QrRepoImpl @Inject constructor(
     }
 
     private fun getDetails(barcode: Barcode): String {
-        return "url : ${barcode.rawValue}"
+        return barcode.rawValue.toString()
 
     }
 }
