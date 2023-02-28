@@ -2,13 +2,11 @@ package com.example.mvp_scanner.screens.MainScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.mvp_scanner.NavControl
-import com.example.mvp_scanner.domain.repo.QrRepo
+import com.example.mvp_scanner.domain.repository.QrRepo
 import com.example.mvp_scanner.screens.MainScreen.models.MainState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -22,16 +20,18 @@ class MainViewModel @Inject constructor(
     private val _state = MutableStateFlow(MainState())
     public val state = _state.asStateFlow()
 
-    fun startScann(navHostController: NavHostController){
+
+    fun scann(navHostController: NavHostController) {
         viewModelScope.launch {
             repo.startScanning().collect{
-                if (!it.isNullOrEmpty()){
+                if (!it.isNullOrBlank()){
                     _state.value = state.value.copy(
                         requestUrl = it
                     )
                 }
-                navHostController.navigate(NavControl.EquipmentScreen.route+state.value.requestUrl)
+                navHostController.navigate(NavControl.EquipmentScreen.route+state.value.requestUrl.split("/").last())
             }
         }
     }
+
 }

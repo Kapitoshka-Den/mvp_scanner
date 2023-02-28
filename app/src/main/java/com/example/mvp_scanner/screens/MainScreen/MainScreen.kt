@@ -6,15 +6,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 import com.example.mvp_scanner.NavControl
 import com.example.mvp_scanner.screens.MainScreen.MainViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.launch
 
 @Composable
 fun MainScreen(navHostController: NavHostController,viewModel:MainViewModel = hiltViewModel()) {
@@ -28,9 +23,9 @@ var scope = rememberCoroutineScope()
         Text(text = state.value.requestUrl)
         Button(
             onClick = {
-                    viewModel.startScann(navHostController)
+                    viewModel.scann(navHostController)
             },
-            content = { Text(text = "Проверка ифнормации по оборудованию") })
+            content = { Text(text = "Сканирование оборудования") })
 
     }
 }

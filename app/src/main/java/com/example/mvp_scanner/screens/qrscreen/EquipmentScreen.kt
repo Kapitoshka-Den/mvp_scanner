@@ -1,15 +1,17 @@
 package com.example.mvp_scanner.screens
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.mvp_scanner.NavControl
-import com.example.mvp_scanner.screens.qrscreen.viewmodel.EquipmentViewModel
+import com.example.mvp_scanner.screens.qrscreen.EquipmentViewModel
 
 @Composable
-fun EquipmentScreen (navControl: NavController, equipId: String, viewModel:EquipmentViewModel = hiltViewModel()){
+fun EquipmentScreen (navControl: NavController, equipId: String, viewModel: EquipmentViewModel = hiltViewModel()){
 
-Text(text = equipId)
+    Text(text = equipId)
+    Column() {
+
+    }
 }

@@ -1,4 +1,4 @@
-package com.example.mvp_scanner.di
+package com.example.mvp_scanner.di.qrModules
 
 import android.content.Context
 import com.google.android.gms.common.internal.TelemetryLogging.getClient

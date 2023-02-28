@@ -1,7 +1,7 @@
-package com.example.mvp_scanner.di
+package com.example.mvp_scanner.di.qrModules
 
-import com.example.mvp_scanner.data.repo.QrRepoImpl
-import com.example.mvp_scanner.domain.repo.QrRepo
+import com.example.mvp_scanner.data.respository.QrRepoImpl
+import com.example.mvp_scanner.domain.repository.QrRepo
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

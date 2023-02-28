@@ -1,4 +1,4 @@
-package com.example.mvp_scanner.domain.repo
+package com.example.mvp_scanner.domain.repository
 
 import kotlinx.coroutines.flow.Flow
 
