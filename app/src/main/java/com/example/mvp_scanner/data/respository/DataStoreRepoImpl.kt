@@ -8,8 +8,12 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.mvp_scanner.domain.models.Tokens
 import com.example.mvp_scanner.domain.repository.DataStoreRepo
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 
@@ -30,14 +34,13 @@ class DataStoreRepoImpl @Inject constructor(val context: Context) : DataStoreRep
         }
     }
 
-    override val getAccesToken: Flow<String>
-        get() = context.dataStore.data.map { pref ->
-            pref[ACCES_TOKEN_KEY] ?: ""
-        }
-    override val getRefreshToken: Flow<String>
-        get() = context.dataStore.data.map { pref ->
+    override val getAccesToken: Flow<String> = context.dataStore.data.map { pref ->
+        pref[ACCES_TOKEN_KEY] ?: ""
+    }
+    override suspend fun getRefreshToken(): String =
+        context.dataStore.data.map{ pref ->
             pref[REFRESH_TOKEN_KEY] ?: ""
-        }
+    }.first()
 
     override suspend fun logOut() {
         context.dataStore.edit {

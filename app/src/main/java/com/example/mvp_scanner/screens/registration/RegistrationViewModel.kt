@@ -2,6 +2,8 @@ package com.example.mvp_scanner.screens.registration
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavHostController
+import com.example.mvp_scanner.NavControl
 import com.example.mvp_scanner.domain.models.User
 import com.example.mvp_scanner.domain.repository.DataStoreRepo
 import com.example.mvp_scanner.domain.repository.TokensRepository
@@ -16,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RegistrationViewModel @Inject constructor(
     client: HttpClient,
-    val tokensRepository: TokensRepository
+    private val tokensRepository: TokensRepository
 ) : ViewModel() {
 
     private val _errorState = MutableStateFlow(RegistrationState.errorState())
@@ -37,15 +39,25 @@ class RegistrationViewModel @Inject constructor(
         _registrationState.value = registrationState.value.copy(password = password)
     }
 
-    fun regClick() {
+    fun regClick(navHostController: NavHostController) {
         viewModelScope.launch {
-            tokensRepository.registration(
+            val response = tokensRepository.registration(
                 User(
                     login = registrationState.value.login,
                     email = registrationState.value.email,
                     password = registrationState.value.password
                 )
             )
+            if(response == null){
+                navHostController.navigate(NavControl.MainScreen.route){
+                    popUpTo(NavControl.RegistrationScreen.route){
+                        inclusive = true
+                    }
+                }
+            }
+            else{
+                _errorState.value = errorState.value.copy(isError = true, errorMessage = response.code.value.toString())
+            }
         }
     }
 }

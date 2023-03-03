@@ -1,6 +1,7 @@
 package com.example.mvp_scanner.screens
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -12,6 +13,12 @@ fun EquipmentScreen (navControl: NavController, equipId: String, viewModel: Equi
 
     Text(text = equipId)
     Column() {
+        OutlinedTextField(value = "", onValueChange = {}, readOnly = true)
+        OutlinedTextField(value = "", onValueChange = {}, readOnly = true)
+        OutlinedTextField(value = "", onValueChange = {}, readOnly = true)
+        OutlinedTextField(value = "", onValueChange = {}, readOnly = true)
+        OutlinedTextField(value = "", onValueChange = {}, readOnly = true)
+        OutlinedTextField(value = "", onValueChange = {}, readOnly = true)
 
     }
 }

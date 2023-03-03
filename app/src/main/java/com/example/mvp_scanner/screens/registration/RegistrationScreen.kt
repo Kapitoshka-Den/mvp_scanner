@@ -50,7 +50,7 @@ fun RegistrationScreen(
             isError = errorState.value.isError,
             errorMessage = errorState.value.errorMessage
         )
-        Button(onClick = {viewModel.regClick()}) {
+        Button(onClick = {viewModel.regClick(navControl)}) {
             Text(text = "SignUp")
         }
         Button(onClick = { navControl.popBackStack() }) {
