@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.example.mvp_scanner.NavControl
+import com.example.mvp_scanner.core.model.equipId
 import com.example.mvp_scanner.domain.repository.QrRepo
 import com.example.mvp_scanner.screens.MainScreen.models.MainState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,6 +30,7 @@ class MainViewModel @Inject constructor(
                         requestUrl = it
                     )
                 }
+                equipId.id = state.value.requestUrl.split("/").last()
                 navHostController.navigate(NavControl.EquipmentScreen.route+state.value.requestUrl.split("/").last())
             }
         }

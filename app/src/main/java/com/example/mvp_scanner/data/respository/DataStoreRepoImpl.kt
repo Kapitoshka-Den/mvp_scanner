@@ -34,9 +34,9 @@ class DataStoreRepoImpl @Inject constructor(val context: Context) : DataStoreRep
         }
     }
 
-    override val getAccesToken: Flow<String> = context.dataStore.data.map { pref ->
+    override suspend fun getAccesToken(): String = context.dataStore.data.map { pref ->
         pref[ACCES_TOKEN_KEY] ?: ""
-    }
+    }.first()
     override suspend fun getRefreshToken(): String =
         context.dataStore.data.map{ pref ->
             pref[REFRESH_TOKEN_KEY] ?: ""

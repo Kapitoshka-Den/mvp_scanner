@@ -5,6 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.mvp_scanner.core.model.StaticNavContolller
 import com.example.mvp_scanner.screens.EquipmentScreen
 import com.example.mvp_scanner.screens.MainScreen
 import com.example.mvp_scanner.screens.authorization.AuthorizationScreen
@@ -22,7 +23,7 @@ sealed class NavControl(val route: String) {
 @Composable
 fun ScreeHost() {
     val navControl = rememberNavController()
-
+    StaticNavContolller.navHostController = navControl
     NavHost(navController = navControl, startDestination = NavControl.AuthorizationScreen.route) {
         composable(NavControl.AudienceScreen.route) {}
         composable(NavControl.MainScreen.route) { MainScreen(navControl) }

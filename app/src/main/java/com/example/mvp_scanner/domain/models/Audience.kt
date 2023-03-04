@@ -1,4 +1,6 @@
 package com.example.mvp_scanner.domain.models
 
 @kotlinx.serialization.Serializable
-data class User(val jobTitle: String)
+data class Audience(
+    val technicalTask:String
+)

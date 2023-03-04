@@ -4,20 +4,13 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.mvp_scanner.core.model.ResponseException
 import com.example.mvp_scanner.domain.models.AuthUser
-import com.example.mvp_scanner.domain.models.User
+import com.example.mvp_scanner.domain.models.RegUser
 import com.example.mvp_scanner.domain.repository.DataStoreRepo
 import com.example.mvp_scanner.domain.repository.TokensRepository
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
-import io.ktor.client.statement.*
 import io.ktor.http.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class TokensRepositoryImpl @Inject constructor(
@@ -27,10 +20,10 @@ class TokensRepositoryImpl @Inject constructor(
     TokensRepository {
     val token = MutableLiveData<String?>()
 
-    override suspend fun registration(user: User): ResponseException? {
+    override suspend fun registration(user: RegUser): ResponseException? {
         val response = client.post("$BASE_AUTH_URL/SignUp") {
                 contentType(ContentType.Application.Json)
-                setBody<User>(
+                setBody<RegUser>(
                     user
                 )
             }

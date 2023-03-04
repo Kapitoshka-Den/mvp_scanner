@@ -6,32 +6,28 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.example.mvp_scanner.NavControl
-import com.example.mvp_scanner.core.model.ResponseException
+import com.example.mvp_scanner.core.model.StaticNavContolller
+import com.example.mvp_scanner.core.model.StaticToken
 import com.example.mvp_scanner.data.respository.TokensRepositoryImpl
 import com.example.mvp_scanner.domain.models.AuthUser
-import com.example.mvp_scanner.domain.models.RefreshToken
-import com.example.mvp_scanner.domain.models.User
 import com.example.mvp_scanner.domain.repository.DataStoreRepo
 import com.example.mvp_scanner.domain.repository.TokensRepository
 import com.example.mvp_scanner.screens.authorization.models.AuthorizationState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.ktor.client.*
-import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class AuthorizationViewModel @Inject constructor(val tokensRepository: TokensRepository,
-val dataStoreRepo: DataStoreRepo,
-val client: HttpClient) :
+class AuthorizationViewModel @Inject constructor(
+    private val tokensRepository: TokensRepository,
+    private val dataStoreRepo: DataStoreRepo,
+    val client: HttpClient
+) :
     ViewModel() {
     private val _errorState = MutableStateFlow(AuthorizationState.errorState())
     val errorState = _errorState.asStateFlow()
@@ -40,10 +36,25 @@ val client: HttpClient) :
     val authorizationState = _authorizationState.asStateFlow()
 
 
-    val token = MutableLiveData<String?>()
-    init{
+    private val token = MutableLiveData<String?>()
+
+    init {
         viewModelScope.launch {
-            dataStoreRepo.logOut()
+            token.value = dataStoreRepo.getRefreshToken()
+            StaticToken.token = token.value!!;
+
+            val tes = client.post(TokensRepositoryImpl.BASE_REFRESH_URL) {
+                contentType(ContentType.Application.Json)
+                setBody("\"${token.value}\"")
+            }
+
+            if (tes.status == HttpStatusCode.OK) {
+                StaticNavContolller.navHostController!!.navigate(NavControl.MainScreen.route) {
+                    popUpTo(NavControl.AuthorizationScreen.route) {
+                        inclusive = true
+                    }
+                }
+            }
         }
     }
 
@@ -59,7 +70,7 @@ val client: HttpClient) :
         Log.e("start", "test")
         viewModelScope.launch {
             val tes = tokensRepository.changeToken()
-            if (tes!!.code == HttpStatusCode.OK){
+            if (tes!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!.code == HttpStatusCode.OK) {
                 navHostController.navigate(NavControl.MainScreen.route) {
                     popUpTo(NavControl.AuthorizationScreen.route) {
                         inclusive = true
@@ -70,23 +81,26 @@ val client: HttpClient) :
     }
 
     fun authorizeClick(navHostController: NavHostController) {
+        val user = AuthUser(
+            email = _authorizationState.value.login,
+            password = _authorizationState.value.password,
+        )
         viewModelScope.launch {
             val exception = tokensRepository.authorization(
-                AuthUser(
-                    email = _authorizationState.value.login,
-                    password = _authorizationState.value.password,
-                )
+                user
             )
-            Log.e("test",exception?.message.toString())
-            if (exception == null){
+            Log.e("test", exception?.message.toString())
+            if (exception == null) {
                 navHostController.navigate(NavControl.MainScreen.route) {
                     popUpTo(NavControl.AuthorizationScreen.route) {
                         inclusive = true
                     }
                 }
-            }
-            else {
-                _errorState.value = errorState.value.copy(isError = true, errorMessage = exception.message.toString())
+            } else {
+                _errorState.value = errorState.value.copy(
+                    isError = true,
+                    errorMessage = exception.message.toString()
+                )
             }
         }
     }

@@ -26,6 +26,7 @@ fun AuthorizationScreen(
     val state = viewModel.authorizationState.collectAsState()
     val errorState = viewModel.errorState.collectAsState()
     LaunchedEffect(state){
+        //viewModel.checkAuthorization(navHostController = navControl)
     }
     Column(
         modifier = Modifier.fillMaxSize(),

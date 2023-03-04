@@ -4,8 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.example.mvp_scanner.NavControl
-import com.example.mvp_scanner.domain.models.User
-import com.example.mvp_scanner.domain.repository.DataStoreRepo
+import com.example.mvp_scanner.domain.models.RegUser
 import com.example.mvp_scanner.domain.repository.TokensRepository
 import com.example.mvp_scanner.screens.registration.models.RegistrationState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -42,7 +41,7 @@ class RegistrationViewModel @Inject constructor(
     fun regClick(navHostController: NavHostController) {
         viewModelScope.launch {
             val response = tokensRepository.registration(
-                User(
+                RegUser(
                     login = registrationState.value.login,
                     email = registrationState.value.email,
                     password = registrationState.value.password

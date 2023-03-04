@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface DataStoreRepo {
     suspend fun setTokens(tokens: Tokens)
-    val getAccesToken: Flow<String>
+    suspend fun getAccesToken(): String
     suspend fun logOut()
     suspend fun getRefreshToken(): String
 }
